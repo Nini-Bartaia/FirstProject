@@ -1,36 +1,35 @@
 package com.example.project.services;
 
 import com.example.project.entities.Resource;
+import com.example.project.entities.SelectedUser;
 import com.example.project.entities.User;
+import com.example.project.enums.DbStatus;
 import com.example.project.enums.ResourceVisibilityStatus;
 import com.example.project.enums.ResourceType;
 import com.example.project.repos.FriendPairsRepo;
 import com.example.project.repos.ResourceRepo;
+import com.example.project.repos.SelectedUserRepo;
 import com.example.project.repos.UserRepo;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-@NoArgsConstructor
+@AllArgsConstructor
 public class ResourceService extends UserService {
 
 
-    @Autowired
-    private ResourceRepo resourceRepo;
-    @Autowired
-    private UserRepo userRepo;
-    @Autowired
-    private FileService fileService;
-    @Autowired
-    private FriendPairsRepo friendPairsRepo;
-    @Autowired
-    private FriendPairsService friendPairsService;
+     private final ResourceRepo resourceRepo;
+     private final UserRepo userRepo;
+     private final FileService fileService;
+     private final FriendPairsRepo friendPairsRepo;
+     private final FriendPairsService friendPairsService;
+     private final SelectedUserRepo selectedUserRepo;
 
     @Transactional
     @CacheEvict(value = "UserService::UserService::findById", key = "#id")
@@ -46,7 +45,9 @@ public class ResourceService extends UserService {
         manageExtension(resource);
         resourceRepo.save(resource1);
 
-        ///?? unda davamato logika
+        if(visibilityStatus==ResourceVisibilityStatus.SELECTEDUSERS){
+            saveSelectedUserIds(resource1.getResourceId(), selectedUserIds);
+        }
     }
 
 
@@ -103,12 +104,37 @@ public class ResourceService extends UserService {
         }
     }
 
-    public Resource checkStatus(long destinationUserId, String file) {
+    public List<Long> getSelectedUserIdsForResource(long resourceId){
 
-        return resourceRepo.checkVisibilityStatus(destinationUserId, file);
-
-
+       return selectedUserRepo.getSelectedUserIdsByResourceId(resourceId);
     }
+
+    public Resource getResourceById(long resourceId) {
+        return resourceRepo.findById(resourceId).orElseThrow(() -> new IllegalArgumentException("Resource not found"));
+    }
+
+    private void saveSelectedUserIds(long resourceId, List<Long> selectedUserIds){
+        List<SelectedUser> selectedUsers= selectedUserIds.stream()
+                .map(userId->{
+            SelectedUser selectedUser = new SelectedUser();
+            selectedUser.setUserId(userId);
+            selectedUser.setResourceId(resourceId);
+            return selectedUser;
+        }).collect(Collectors.toList());
+        selectedUserRepo.saveAll(selectedUsers);
+    }
+
+    public void deleteResource(long id){
+
+        resourceRepo.deleteResource(id, DbStatus.DELETED);
+    }
+
+//    public Resource checkStatus(long destinationUserId, String file) {
+//
+//        return resourceRepo.checkVisibilityStatus(destinationUserId, file);
+//
+//
+//    }
 
 
 }

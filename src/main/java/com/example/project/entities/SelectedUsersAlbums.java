@@ -2,27 +2,30 @@ package com.example.project.entities;
 
 import com.example.project.enums.DbStatus;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 @Entity
-@Table(name = "selectedUsersAlbums")
+@Table(name = "selected_users_albums")
+@Getter
+@Setter
 public class SelectedUsersAlbums {
 
     @Id
     @GeneratedValue
     @Column(name = "selected_user_album_id")
     private long selectedUsersAlbumId;
-    @ManyToOne(optional=false,fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "userId")
     private User selectedUserId;
-    @ManyToOne(optional=false,fetch=FetchType.EAGER)
-    @JoinColumn(name = "albumId")
-    private Album albumResourceId; //??
-    @Column(name = "album_resource")
-    private String albumResource;
+    @Column(name = "album_id")
+    private long albumId;
+    @Column(name = "resource_id")
+    private long selectedResource;
     @Column(name = "create_Date")
     private LocalDateTime createDate;
     @Column(name = "see_all_files")
@@ -37,59 +40,5 @@ public class SelectedUsersAlbums {
 
     }
 
-    public long getSelectedUsersAlbumId() {
-        return selectedUsersAlbumId;
-    }
 
-    public void setSelectedUsersAlbumId(long selectedUsersAlbumId) {
-        this.selectedUsersAlbumId = selectedUsersAlbumId;
-    }
-
-    public User getSelectedUserId() {
-        return selectedUserId;
-    }
-
-    public void setSelectedUserId(User selectedUserId) {
-        this.selectedUserId = selectedUserId;
-    }
-
-    public Album getAlbumResourceId() {
-        return albumResourceId;
-    }
-
-    public void setAlbumResourceId(Album albumResourceId) {
-        this.albumResourceId = albumResourceId;
-    }
-
-    public String getAlbumResource() {
-        return albumResource;
-    }
-
-    public void setAlbumResource(String albumResource) {
-        this.albumResource = albumResource;
-    }
-
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
-    }
-
-    public DbStatus getDbStatus() {
-        return dbStatus;
-    }
-
-    public void setDbStatus(DbStatus dbStatus) {
-        this.dbStatus = dbStatus;
-    }
-
-    public boolean isSeeAllFiles() {
-        return seeAllFiles;
-    }
-
-    public void setSeeAllFiles(boolean seeAllFiles) {
-        this.seeAllFiles = seeAllFiles;
-    }
 }

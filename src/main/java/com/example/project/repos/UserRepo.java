@@ -15,11 +15,11 @@ public interface UserRepo extends JpaRepository<User, Long> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE User u SET u.dbStatus='INNACTIVE' WHERE u.id=:UserId")
+    @Query("UPDATE User u SET u.dbStatus='DELETED' WHERE u.id=:UserId")
     void deleteUserById(@Param("UserId") Long userId);
 
     @Transactional
-    @Query("SELECT u.email, u.name, u.password FROM User u WHERE u.id = :userId AND u.dbStatus = 'Active'")
+    @Query("SELECT u.email, u.name, u.password FROM User u WHERE u.id = :userId AND u.dbStatus = 'ACTIVE'")
     User findUserById(@Param("userId") Long userId);
 
     @Transactional

@@ -15,11 +15,8 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class FriendPairsService {
 
-
     @Autowired
     private FriendPairsRepo friendPairsRepo;
-
-
     public List<Long> getFriends(long userId) {
         List<FriendPairs> friendPairs = friendPairsRepo.findFriendPairsByUserId(userId);
 

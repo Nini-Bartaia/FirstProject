@@ -3,6 +3,8 @@ package com.example.project.entities;
 
 import com.example.project.enums.DbStatus;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -10,6 +12,8 @@ import java.time.ZoneId;
 
 @Entity
 @Table(name="uncommitedFriendRequests")
+@Getter
+@Setter
 public class UncommitedFriendRequest {
 
     @Id
@@ -37,51 +41,5 @@ public class UncommitedFriendRequest {
 
     }
 
-    public long getRequestId() {
-        return requestId;
-    }
 
-    public void setRequestId(long requestId) {
-        this.requestId = requestId;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public User getLastFriendId() {
-        return lastFriendId;
-    }
-
-    public void setLastFriendId(User lastFriendId) {
-        this.lastFriendId = lastFriendId;
-    }
-
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getRequestStatus() {
-        return requestStatus;
-    }
-
-    public void setRequestStatus(String requestStatus) {
-        this.requestStatus = requestStatus;
-    }
-
-    public DbStatus getDbStatus() {
-        return dbStatus;
-    }
-
-    public void setDbStatus(DbStatus dbStatus) {
-        this.dbStatus = dbStatus;
-    }
 }

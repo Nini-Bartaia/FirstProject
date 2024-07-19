@@ -39,8 +39,7 @@ public class AlbumResourceService {
     private final MinioClient minioClient;
     private final MinioProperties minioProperties;
 
-//    @Value("${minio.bucket}")
-//    private final String bucketName;
+
 
     public AlbumResources addResourceToAlbum(long albumId, long resourceId){
 
@@ -70,12 +69,6 @@ public class AlbumResourceService {
     }
 
     public boolean checkResourceType(long albumId, long resourceId){
-//        if(albumRepo.findById(albumId).get().getDbStatus()== DbStatus.DELETED){
-//            throw new ResourceDeletedException("Resource not found");
-//        }
-//        if(resourceRepo.findById(resourceId).get().getDbStatus()== DbStatus.DELETED){
-//            throw new ResourceDeletedException("Resource not found");
-//        }
 
         Album album= albumRepo.findById(albumId).orElseThrow(()->new RuntimeException("Album not found"));
         Resource resource= resourceRepo.findById(resourceId).orElseThrow(()->new RuntimeException("Resource not found"));
@@ -87,76 +80,6 @@ public class AlbumResourceService {
         }
 
     }
-
-//    public AlbumResources getResourceFromAlbum(long userId, long albumId){
-//
-//        Album album= albumRepo.findById(albumId).orElseThrow(()->new RuntimeException("Album not found"));
-//        if(album.getShow()== ShowFiles.ALL){
-//
-//            return albumResourceRepo.findById(albumId).orElseThrow(()->new RuntimeException("Resource not found"));
-//
-//        }else if(album.getShow()== ShowFiles.AFTERINSERT){
-//            SelectedUsersAlbums usersAlbums= SelectedUserAlbumRepo.
-//
-//        }
-//    }
-
-//    public void getResourcesFromAlbum(long userId, long albumId){
-//        Album album= albumRepo.findById(albumId).orElseThrow(()->new RuntimeException("Album not found"));
-//        AlbumResources albumResources=albumResourceRepo.findById(albumId).orElseThrow(()->new RuntimeException("Album not found"));
-//
-//        if(album.getShow()==ShowFiles.ALL){
-//
-//            //return resource id from albumResources table
-//
-//        }else if(album.getShow()==ShowFiles.AFTERINSERT){
-//
-//
-//
-//        }
-//
-//    }
-
-
-    //!!!!!
-//
-//    public List<Resource> getResourcesForUserInAlbum(long userId, long albumId) {
-//
-//        Album album = albumRepo.findById(albumId).orElseThrow(() -> new RuntimeException("Album not found"));
-//        List<Long> userIds= friendPairsService.getFriends(userId);
-//        List<Long> selectedIds= selectedUserAlbumRepo.selectedIds(albumId);
-//        if (album.getDbStatus() == DbStatus.DELETED) {
-//            throw new AlbumDeletedException("Album not found");
-//        }
-//
-//        if(album.getVisibility() == ResourceVisibilityStatus.PRIVATE && album.getOwnerId().getId()!= userId){
-//
-//            throw new NoAccessError("No Access to that Album");
-//        }else if(album.getVisibility()== ResourceVisibilityStatus.FRIENDS && !userIds.contains(userId)){
-//
-//            throw new NoAccessError("No Access to that Album");
-//        }else if(!selectedIds.contains(userId)){
-//            throw new NoAccessError("No Access to that Album");
-//        }
-//
-//
-//        if (album.getShow() == ShowFiles.ALL) {
-//            return albumResourceRepo.findByAlbumId(albumId)
-//                    .stream()
-//                    .map(AlbumResources::getResourceId)
-//                    .collect(Collectors.toList());
-//        } else if (album.getShow() == ShowFiles.AFTERINSERT) {
-//            SelectedUsersAlbums userAlbum = selectedUserAlbumRepo.findByAlbumIdAndUserId(albumId, userId)
-//                    .orElseThrow(() -> new RuntimeException("User not found in album"));
-//            LocalDateTime userAddedDate = userAlbum.getCreateDate();
-//            return albumResourceRepo.findByAlbumIdAndCreateDateAfter(albumId, userAddedDate)
-//                    .stream()
-//                    .map(AlbumResources::getResourceId)
-//                    .collect(Collectors.toList());
-//        } else {
-//            throw new RuntimeException("Invalid show files option");
-//        }
-//    }
 
     public List<String> getResourcesForUserInAlbum(long userId, long albumId) {
         Album album = albumRepo.findById(albumId).orElseThrow(() -> new RuntimeException("Album not found"));

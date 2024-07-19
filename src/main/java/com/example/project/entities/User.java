@@ -14,6 +14,8 @@ import java.time.ZoneId;
 
 @Entity
 @Table(name = "Users")
+@Getter
+@Setter
 public class User {
     @Id
     @GeneratedValue
@@ -45,75 +47,4 @@ public class User {
     //    this.verification = VerificationStatus.NOTVERIFIED;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public VerificationStatus getVerification() {
-        return verification;
-    }
-
-    public void setVerification(VerificationStatus verification) {
-        this.verification = verification;
-    }
-
-    public Integer getVerificationCode() {
-        return verificationCode;
-    }
-
-    public void setVerificationCode(Integer verificationCode) {
-        this.verificationCode = verificationCode;
-    }
-
-    public DbStatus getDbStatus() {
-        return dbStatus;
-    }
-
-    public void setDbStatus(DbStatus dbStatus) {
-        this.dbStatus = dbStatus;
-    }
-
-    public LocalDateTime getVerificationCodeExpiration() {
-        return verificationCodeExpiration;
-    }
-
-    public void setVerificationCodeExpiration(LocalDateTime verificationCodeExpiration) {
-        this.verificationCodeExpiration = verificationCodeExpiration;
-    }
 }

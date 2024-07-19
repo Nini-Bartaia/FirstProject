@@ -2,6 +2,8 @@ package com.example.project.entities;
 
 import com.example.project.enums.DbStatus;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -9,6 +11,8 @@ import java.time.ZoneId;
 
 @Entity
 @Table(name = "friendPairs")
+@Getter
+@Setter
 public class FriendPairs {
     @Id
     @GeneratedValue
@@ -29,44 +33,5 @@ public class FriendPairs {
         this.dbStatus = DbStatus.ACTIVE;
     }
 
-    public long getFriendPairId() {
-        return friendPairId;
-    }
-
-    public void setFriendPairId(long friendPairId) {
-        this.friendPairId = friendPairId;
-    }
-
-    public long getFirstFriendId() {
-        return firstFriendId;
-    }
-
-    public void setFirstFriendId(long firstFriendId) {
-        this.firstFriendId = firstFriendId;
-    }
-
-    public long getSecondFriendId() {
-        return secondFriendId;
-    }
-
-    public void setSecondFriendId(long secondFriendId) {
-        this.secondFriendId = secondFriendId;
-    }
-
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
-    }
-
-    public DbStatus getDbStatus() {
-        return dbStatus;
-    }
-
-    public void setDbStatus(DbStatus dbStatus) {
-        this.dbStatus = dbStatus;
-    }
 }
 

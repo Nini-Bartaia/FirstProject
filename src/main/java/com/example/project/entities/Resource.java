@@ -4,12 +4,16 @@ import com.example.project.enums.DbStatus;
 import com.example.project.enums.ResourceVisibilityStatus;
 import com.example.project.enums.ResourceType;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 @Entity
 @Table(name = "resource")
+@Getter
+@Setter
 public class Resource {
 
     @Id
@@ -38,59 +42,4 @@ public class Resource {
         this.dbStatus = DbStatus.ACTIVE;
     }
 
-    public long getResourceId() {
-        return resourceId;
-    }
-
-    public void setResourceId(long resourceId) {
-        this.resourceId = resourceId;
-    }
-
-    public String getResourceAddress() {
-        return resourceAddress;
-    }
-
-    public void setResourceAddress(String resourceAddress) {
-        this.resourceAddress = resourceAddress;
-    }
-
-    public User getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(User ownerId) {
-        this.ownerId = ownerId;
-    }
-
-    public ResourceType getResourceType() {
-        return resourceType;
-    }
-
-    public void setResourceType(ResourceType resourceType) {
-        this.resourceType = resourceType;
-    }
-
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
-    }
-
-    public ResourceVisibilityStatus getVisibility() {
-        return visibility;
-    }
-
-    public void setVisibility(ResourceVisibilityStatus visibility) {
-        this.visibility = visibility;
-    }
-
-    public DbStatus getDbStatus() {
-        return dbStatus;
-    }
-
-    public void setDbStatus(DbStatus dbStatus) {
-        this.dbStatus = dbStatus;
-    }
 }

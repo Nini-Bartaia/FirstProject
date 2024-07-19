@@ -43,8 +43,6 @@ public class EmailVerificationService {
         }
 
         return sentCode.equals(userEnteredCode);
-
-       // return sentCode.equals(userEnteredCode);
     }
 
 }

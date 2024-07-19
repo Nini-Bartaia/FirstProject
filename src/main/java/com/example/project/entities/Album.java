@@ -48,18 +48,4 @@ public class Album {
     }
 
 
-    @Override
-    public String toString() {
-        return "Album{" +
-                "albumId=" + albumId +
-                ", ownerId=" + ownerId.getId() +
-                ", name='" + name + '\'' +
-                ", albumType='" + albumType + '\'' +
-                ", visibility=" + visibility +
-                ", createDate=" + createDate +
-                ", dbStatus=" + dbStatus +
-                '}';
-    }
-
-
 }

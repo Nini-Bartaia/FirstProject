@@ -30,7 +30,7 @@ public class AlbumResourceController {
 
     }
 
-    //ResponseEntity<List<String>>
+
     @GetMapping("/get_resources_for_user")
     public ResponseEntity<List<String>> getResourcesForUserInAlbum(@RequestParam long userId, @RequestParam long albumId) {
         try {

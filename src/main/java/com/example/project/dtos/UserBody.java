@@ -1,7 +1,11 @@
 package com.example.project.dtos;
 
-import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
+@Getter
+@Setter
 public class UserBody {
     private long id;
     private String name;
@@ -14,35 +18,4 @@ public class UserBody {
         this.password = password;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

@@ -16,7 +16,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FileService {
 
-
     private final MinioClient minioClient;
     private final MinioProperties minioProperties;
 

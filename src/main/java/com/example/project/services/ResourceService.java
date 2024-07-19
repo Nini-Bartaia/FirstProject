@@ -31,7 +31,7 @@ public class ResourceService extends UserService {
      private final FriendPairsRepo friendPairsRepo;
      private final FriendPairsService friendPairsService;
      private final SelectedUserRepo selectedUserRepo;
-    private final EmailVerificationService emailVerificationService;
+     private final EmailVerificationService emailVerificationService;
 
     @Transactional
     @CacheEvict(value = "UserService::UserService::findById", key = "#id")
@@ -63,8 +63,6 @@ public class ResourceService extends UserService {
     public ResourceType manageExtension(MultipartFile file) {
 
         String extension = fileService.getExtension(file);
-
-
         switch (extension) {
             case "jpg":
             case "jpeg":
@@ -137,12 +135,6 @@ public class ResourceService extends UserService {
         resourceRepo.deleteResource(id, DbStatus.DELETED);
     }
 
-//    public Resource checkStatus(long destinationUserId, String file) {
-//
-//        return resourceRepo.checkVisibilityStatus(destinationUserId, file);
-//
-//
-//    }
 
 
 }

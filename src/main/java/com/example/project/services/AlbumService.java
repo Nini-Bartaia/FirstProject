@@ -1,6 +1,6 @@
 package com.example.project.services;
 
-import com.example.project.dtos.AlbumRequestBody;
+
 import com.example.project.entities.*;
 import com.example.project.enums.DbStatus;
 import com.example.project.enums.ResourceType;
@@ -13,8 +13,6 @@ import com.example.project.repos.UserRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -108,22 +106,5 @@ public class AlbumService {
         albumRepo.deleteAlbum(id, DbStatus.DELETED);
     }
 
-//    public List<Resource> getResourcesForUserInAlbum(long userId, long albumId) {
-//        Album album = albumRepo.findById(albumId).orElseThrow(() -> new RuntimeException("album not found"));
-//        if (!checkVisibilityStatus(userId, albumId)) {
-//            throw new RuntimeException("Access denied");
-//        }
-//
-//        if (album.getShow() == ShowFiles.ALL) {
-//            return albumRepo.findById(albumId);
-//        } else if (album.getShow() == ShowFiles.AFTERINSERT) {
-//            SelectedUsersAlbums userAlbum = selectedUserAlbumRepo.findByAlbumIdAndUserId(albumId, userId)
-//                    .orElseThrow(() -> new RuntimeException("User not found in album"));
-//            LocalDateTime userAddedDate = userAlbum.getCreateDate();
-//            return resourceRepo.findByAlbumIdAndCreateDateAfter(albumId, userAddedDate);
-//        } else {
-//            throw new RuntimeException("Invalid show files option");
-//        }
-//    }
 
 }

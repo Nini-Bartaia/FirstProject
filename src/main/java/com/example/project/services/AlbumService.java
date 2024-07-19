@@ -3,14 +3,18 @@ package com.example.project.services;
 import com.example.project.dtos.AlbumRequestBody;
 import com.example.project.entities.*;
 import com.example.project.enums.DbStatus;
+import com.example.project.enums.ResourceType;
 import com.example.project.enums.ResourceVisibilityStatus;
+import com.example.project.enums.ShowFiles;
 import com.example.project.repos.AlbumRepo;
 import com.example.project.repos.FriendPairsRepo;
 import com.example.project.repos.SelectedUserAlbumRepo;
 import com.example.project.repos.UserRepo;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,12 +27,15 @@ public class AlbumService {
     private final FriendPairsRepo friendPairsRepo;
     private final FriendPairsService friendPairsService;
     private final SelectedUserAlbumRepo selectedUserAlbumRepo;
+    private final EmailVerificationService emailVerificationService;
 
-    public Album createAlbum(long userId, String albumName, ResourceVisibilityStatus visibilityStatus, List<Long> selectedUserIds) {
+    public Album createAlbum(long userId, String albumName, ResourceVisibilityStatus visibilityStatus, ResourceType resourceType, List<Long> selectedUserIds, ShowFiles show) {
 
         User user=userRepo.findById(userId).orElseThrow(()-> new RuntimeException("use not found"));
         Album album = new Album();
         album.setName(albumName);
+        album.setAlbumType(resourceType);
+        album.setShow(show);
         album.setOwnerId(user);
         album.setVisibility(visibilityStatus);
         albumRepo.save(album);
@@ -36,6 +43,12 @@ public class AlbumService {
         if(visibilityStatus==ResourceVisibilityStatus.SELECTEDUSERS){
 
             saveSelectedUserIds(album.getAlbumId(), selectedUserIds);
+            selectedUserIds.stream().map(id->{
+                User selectedUser= userRepo.findById(id).orElseThrow(()-> new UsernameNotFoundException("user not found"));
+                emailVerificationService.sendFriendRequestToEmail(selectedUser.getEmail(), "Album shared with you");
+                return null;
+            }).collect(Collectors.toList());
+
         }
 
         return album;
@@ -83,7 +96,7 @@ public class AlbumService {
                     SelectedUsersAlbums selectedUsersAlbums= new SelectedUsersAlbums();
                     selectedUsersAlbums.setSelectedUserId(user);
                     selectedUsersAlbums.setAlbumId(albumId);
-                    return selectedUsersAlbums;
+                     return selectedUsersAlbums;
 
                 }).collect(Collectors.toList());
         selectedUserAlbumRepo.saveAll(selectedUsers);
@@ -94,5 +107,23 @@ public class AlbumService {
 
         albumRepo.deleteAlbum(id, DbStatus.DELETED);
     }
+
+//    public List<Resource> getResourcesForUserInAlbum(long userId, long albumId) {
+//        Album album = albumRepo.findById(albumId).orElseThrow(() -> new RuntimeException("album not found"));
+//        if (!checkVisibilityStatus(userId, albumId)) {
+//            throw new RuntimeException("Access denied");
+//        }
+//
+//        if (album.getShow() == ShowFiles.ALL) {
+//            return albumRepo.findById(albumId);
+//        } else if (album.getShow() == ShowFiles.AFTERINSERT) {
+//            SelectedUsersAlbums userAlbum = selectedUserAlbumRepo.findByAlbumIdAndUserId(albumId, userId)
+//                    .orElseThrow(() -> new RuntimeException("User not found in album"));
+//            LocalDateTime userAddedDate = userAlbum.getCreateDate();
+//            return resourceRepo.findByAlbumIdAndCreateDateAfter(albumId, userAddedDate);
+//        } else {
+//            throw new RuntimeException("Invalid show files option");
+//        }
+//    }
 
 }

@@ -29,6 +29,10 @@ public class EmailVerificationService {
         emailService.sendEmail(email,"Verification Code","Please use the following code to complete your login: " + code );
     }
 
+    public void sendFriendRequestToEmail(String email, String message){
+        emailService.sendEmail(email,"Friend Request",message);
+    }
+
     public LocalDateTime generateExpirationTime() {
         return LocalDateTime.now().plusMinutes(10); // Set expiration time to 10 minutes from now
     }

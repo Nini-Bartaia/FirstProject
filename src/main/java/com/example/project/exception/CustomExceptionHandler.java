@@ -16,9 +16,21 @@ public class CustomExceptionHandler {
     public ResponseEntity<String> ResourceDeletedExceptionHandler(ResourceDeletedException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.GONE);
     }
+    @ExceptionHandler(AlbumTypeDontMatchError.class)
+    public ResponseEntity<String> AlbumTypeDontMatch(RuntimeException ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    @ExceptionHandler(NoAccessError.class)
+    public ResponseEntity<String> noAccessErrorHandler(RuntimeException ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeException(RuntimeException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+
+
+
 }

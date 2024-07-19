@@ -12,6 +12,7 @@ import com.example.project.repos.SelectedUserRepo;
 import com.example.project.repos.UserRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +31,7 @@ public class ResourceService extends UserService {
      private final FriendPairsRepo friendPairsRepo;
      private final FriendPairsService friendPairsService;
      private final SelectedUserRepo selectedUserRepo;
+    private final EmailVerificationService emailVerificationService;
 
     @Transactional
     @CacheEvict(value = "UserService::UserService::findById", key = "#id")
@@ -47,6 +49,12 @@ public class ResourceService extends UserService {
 
         if(visibilityStatus==ResourceVisibilityStatus.SELECTEDUSERS){
             saveSelectedUserIds(resource1.getResourceId(), selectedUserIds);
+
+            selectedUserIds.stream().map(userId->{
+                User selectedUser= userRepo.findById(userId).orElseThrow(()-> new UsernameNotFoundException("user not found"));
+                emailVerificationService.sendFriendRequestToEmail(selectedUser.getEmail(), "Resource shared with you");
+                return null;
+            }).collect(Collectors.toList());
         }
     }
 

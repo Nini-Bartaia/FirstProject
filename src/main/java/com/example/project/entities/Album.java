@@ -1,7 +1,9 @@
 package com.example.project.entities;
 
 import com.example.project.enums.DbStatus;
+import com.example.project.enums.ResourceType;
 import com.example.project.enums.ResourceVisibilityStatus;
+import com.example.project.enums.ShowFiles;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,12 +27,16 @@ public class Album {
     @Column(name = "name")
     private String name;
     @Column(name = "album_type")
-    private String albumType;
+    @Enumerated(EnumType.STRING)
+    private ResourceType albumType;
     @Column(name = "visibility")
     @Enumerated(EnumType.STRING)
     private ResourceVisibilityStatus visibility;
     @Column(name = "create_Date")
     private LocalDateTime createDate;
+    @Column(name = "show_files")
+    @Enumerated(EnumType.STRING)
+    private ShowFiles show;
     @Column(name = "db_status")
     @Enumerated(EnumType.STRING)
     private DbStatus dbStatus;

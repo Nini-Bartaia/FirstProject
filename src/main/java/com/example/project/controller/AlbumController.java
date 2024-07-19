@@ -3,7 +3,9 @@ package com.example.project.controller;
 import com.example.project.dtos.AlbumRequestBody;
 import com.example.project.entities.Album;
 import com.example.project.entities.Resource;
+import com.example.project.enums.ResourceType;
 import com.example.project.enums.ResourceVisibilityStatus;
+import com.example.project.enums.ShowFiles;
 import com.example.project.services.AlbumService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,10 +23,10 @@ public class AlbumController {
     private final AlbumService albumService;
 
     @PostMapping("/create_album")
-    public ResponseEntity<Long> createAlbum(@RequestParam Long userId, @RequestParam String albumName, @RequestParam  ResourceVisibilityStatus visibilityStatus, @RequestParam(required = false) List<Long> selectedUserIds) {
+    public ResponseEntity<Long> createAlbum(@RequestParam Long userId, @RequestParam String albumName, @RequestParam  ResourceVisibilityStatus visibilityStatus, @RequestParam ResourceType resourceType, @RequestParam(required = false) List<Long> selectedUserIds, @RequestParam ShowFiles show) {
 
         try {
-            Album album= albumService.createAlbum(userId, albumName,visibilityStatus, selectedUserIds);
+            Album album= albumService.createAlbum(userId, albumName,visibilityStatus,resourceType, selectedUserIds, show);
             long albumId= album.getAlbumId();
 
             return ResponseEntity.ok(albumId);
@@ -36,15 +38,15 @@ public class AlbumController {
     }
 
     @GetMapping("/get_album")
-    public ResponseEntity<String> getAlbum(@RequestParam long userId, @RequestParam long albumId) {
+    public ResponseEntity<Album> getAlbum(@RequestParam long userId, @RequestParam long albumId) {
 
         if(albumService.checkVisibilityStatus(userId, albumId)) {
 
             Album album= albumService.getAlbumById(albumId);
-            return new ResponseEntity<>("Album found" + album, HttpStatus.OK);
+            return  ResponseEntity.ok(album);
 
         }else{
-            return new ResponseEntity<>("Album not found", HttpStatus.NOT_FOUND);
+            return  ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 

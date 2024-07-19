@@ -5,6 +5,7 @@ import com.example.project.entities.FriendPairs;
 import com.example.project.entities.UncommitedFriendRequest;
 import com.example.project.entities.User;
 import com.example.project.enums.DbStatus;
+import com.example.project.props.EmailSender;
 import com.example.project.repos.FriendPairsRepo;
 import com.example.project.repos.UncommitedRepo;
 //import com.example.project.repos.AuthRepo;
@@ -21,6 +22,7 @@ public class UncommitedFriendRequestService {
   //  private final AuthRepo userRepo;
     private final UncommitedRepo uncommitedRepo;
     private final FriendPairsRepo friendPairsRepo;
+    private final EmailVerificationService emailVerificationService;
 
 
     public UncommitedFriendRequest sendRequest(FriendRequestBody friendRequestBody){
@@ -32,6 +34,7 @@ public class UncommitedFriendRequestService {
        uncommitedFriendRequest.setLastFriendId(seocondUser);
        uncommitedFriendRequest.setRequestStatus("UNCOMMITED");
 
+       emailVerificationService.sendFriendRequestToEmail(user.getEmail(), "You have new friend request");
        return uncommitedRepo.save(uncommitedFriendRequest);
     }
 

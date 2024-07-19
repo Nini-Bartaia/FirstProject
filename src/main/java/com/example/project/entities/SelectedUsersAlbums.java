@@ -20,7 +20,7 @@ public class SelectedUsersAlbums {
     @Column(name = "selected_user_album_id")
     private long selectedUsersAlbumId;
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     private User selectedUserId;
     @Column(name = "album_id")
     private long albumId;
